@@ -1,12 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Layout from "./pages/Layout";
-import { RequireAuth } from "./Auth";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import NoMatch from "./pages/NoMatch";
-import { AuthProvider } from "./Auth/index.tsx";
-
-import "./tailwind.css";
+import Layout from "./pages/Layout/index.tsx";
+import { RequireAuth } from "./Auth/index.tsx";
+import Login from "./pages/Login/index.tsx";
+import Dashboard from "./pages/Dashboard/index.tsx";
+import NoMatch from "./pages/NoMatch/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,10 +29,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 export default function Router() {
-  return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-  );
+  return <RouterProvider router={router} />;
 }

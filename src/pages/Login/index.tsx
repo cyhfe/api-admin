@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Auth";
-import { Button } from "@primer/react";
+import Button from "@mui/material/Button";
 
 export default function Login() {
   const { user } = useAuth("Login");
@@ -12,6 +12,7 @@ export default function Login() {
   return (
     <div>
       <Button>注册</Button>
+      <div className="text-red-400">sada</div>
       <Button>登陆</Button>
     </div>
   );

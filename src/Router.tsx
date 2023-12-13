@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NoMatch from "./pages/NoMatch";
 import { AuthProvider } from "./Auth/index.tsx";
+
+import "./tailwind.css";
+
 const router = createBrowserRouter([
   {
     path: "/",

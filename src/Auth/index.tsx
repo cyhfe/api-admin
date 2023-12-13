@@ -8,26 +8,19 @@ interface User {
 }
 interface AuthContextValue {
   user: User | null;
-  login: () => Promise<void>;
-  logout: () => Promise<void>;
+  updateUser: (user: User) => void;
 }
 const [Auth, useAuth] = createContext<AuthContextValue>("AuthProvider");
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null);
 
-  const login = React.useCallback(async () => {
-    await new Promise((r) => setTimeout(r, 500));
-    setUser({ username: "123", id: "1" });
-  }, []);
-
-  const logout = React.useCallback(async () => {
-    await new Promise((r) => setTimeout(r, 500));
-    setUser(null);
+  const updateUser = React.useCallback((user: User) => {
+    setUser(user);
   }, []);
 
   return (
-    <Auth user={user} login={login} logout={logout}>
+    <Auth user={user} updateUser={updateUser}>
       {children}
     </Auth>
   );

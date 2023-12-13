@@ -1,47 +1,38 @@
-import { Route, Routes, createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout";
+import { RequireAuth } from "./Auth";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 import NoMatch from "./pages/NoMatch";
-
+import { AuthProvider } from "./Auth/index.tsx";
 const router = createBrowserRouter([
   {
-    id: "root",
     path: "/",
-    Component: Layout,
+    element: <Layout />,
     children: [
       {
         index: true,
-        Component: PublicPage,
+        element: (
+          <RequireAuth>
+            <Dashboard />
+          </RequireAuth>
+        ),
       },
       {
         path: "login",
-        action: loginAction,
-        loader: loginLoader,
-        Component: LoginPage,
+        element: <Login />,
       },
       {
-        path: "protected",
-        loader: protectedLoader,
-        Component: ProtectedPage,
+        path: "*",
+        element: <NoMatch />,
       },
     ],
-  },
-  {
-    path: "/logout",
-    async action() {
-      // We signout in a "resource route" that we can hit from a fetcher.Form
-      await fakeAuthProvider.signout();
-      return redirect("/");
-    },
   },
 ]);
 export default function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="*" element={<NoMatch />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }

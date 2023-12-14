@@ -33,13 +33,42 @@ function LoginForm() {
         className="flex flex-col gap-y-5"
       >
         <Controller
-          render={({ field }) => (
-            <TextField label="用户名" size="small" {...field} />
-          )}
+          rules={{
+            required: {
+              value: true,
+              message: "请输入用户名",
+            },
+            minLength: {
+              value: 6,
+              message: "用户名不能少于6位",
+            },
+          }}
+          render={({ field, fieldState: { error } }) => {
+            console.log(error);
+            return (
+              <TextField
+                label="用户名"
+                size="small"
+                error={!!error}
+                helperText={error?.message}
+                {...field}
+              />
+            );
+          }}
           name="username"
           control={control}
         />
         <Controller
+          rules={{
+            required: {
+              value: true,
+              message: "请输入密码",
+            },
+            minLength: {
+              value: 6,
+              message: "密码不能少于6位",
+            },
+          }}
           render={({ field }) => (
             <TextField type="password" size="small" label="密码" {...field} />
           )}

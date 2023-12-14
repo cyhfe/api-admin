@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 
 function Toaster() {
   return (
-    <ToasterBase position="top-right">
+    <ToasterBase position="top-right" containerClassName="text-sm">
       {(t) => (
         <ToastBar toast={t}>
           {({ icon, message }) => (

@@ -4,8 +4,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Controller, useForm } from "react-hook-form";
 import Link from "@mui/material/Link";
-import { post } from "../../request";
+import { request } from "../../request";
 import toast from "react-hot-toast";
+import { AxiosError, isAxiosError } from "axios";
 export default function Login() {
   const { user } = useAuth("Login");
   const location = useLocation();
@@ -33,14 +34,19 @@ function LoginForm() {
         <form
           onSubmit={handleSubmit(async (data) => {
             try {
-              const res = await post({
+              const res = await request({
+                method: "POST",
                 url: "/auth/login",
                 data,
               });
               updateUser(res.data.user);
               localStorage.setItem("access_token", res.data.access_token);
-            } catch (error) {
-              toast.error(error.response.data.message);
+            } catch (e) {
+              const error = e as Error | AxiosError;
+              if (isAxiosError(error)) {
+                const message = error.response?.data?.message;
+                message && toast.error(message);
+              }
             }
           })}
           className="flex flex-col gap-y-5"

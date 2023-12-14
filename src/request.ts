@@ -1,13 +1,15 @@
 import axios from "axios";
 
-export const request = axios.create({
-  baseURL: import.meta.env.VITE_ENDPOINT,
+const request = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
 });
 
-export const post = axios.create({
-  method: "POST",
-  baseURL: import.meta.env.VITE_ENDPOINT,
-  headers: {
-    "Content-Type": "application/json",
-  },
+request.interceptors.request.use((config) => {
+  const token = window.localStorage.getItem("access_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
+
+export { request };

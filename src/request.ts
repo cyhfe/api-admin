@@ -1,9 +1,13 @@
-import "vite/client";
-
 import axios from "axios";
 
 export const request = axios.create({
   baseURL: import.meta.env.VITE_ENDPOINT,
 });
 
-export default request;
+export const post = axios.create({
+  method: "POST",
+  baseURL: import.meta.env.VITE_ENDPOINT,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});

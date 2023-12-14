@@ -4,7 +4,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Controller, useForm } from "react-hook-form";
 import Link from "@mui/material/Link";
-
+import { post } from "../../request";
+import toast from "react-hot-toast";
 export default function Login() {
   const { user } = useAuth("Login");
   const location = useLocation();
@@ -13,11 +14,7 @@ export default function Login() {
     return <Navigate to={origin} />;
   }
 
-  return (
-    <div>
-      <LoginForm />
-    </div>
-  );
+  return <LoginForm />;
 }
 
 function LoginForm() {
@@ -27,11 +24,25 @@ function LoginForm() {
       password: "",
     },
   });
+
+  const { updateUser } = useAuth("LoginForm");
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col gap-y-5">
         <form
-          onSubmit={handleSubmit((data) => console.log(data))}
+          onSubmit={handleSubmit(async (data) => {
+            try {
+              const res = await post({
+                url: "/auth/login",
+                data,
+              });
+              updateUser(res.data.user);
+              localStorage.setItem("access_token", res.data.access_token);
+            } catch (error) {
+              toast.error(error.response.data.message);
+            }
+          })}
           className="flex flex-col gap-y-5"
         >
           <Controller
@@ -87,7 +98,7 @@ function LoginForm() {
             登陆
           </Button>
         </form>
-        <div>
+        <div className="text-sm">
           <span>
             还没有账号？去
             <Link component={RouterLink} to="/register">

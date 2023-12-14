@@ -4,6 +4,7 @@ import { RequireAuth } from "./Auth/index.tsx";
 import Login from "./pages/Login/index.tsx";
 import Dashboard from "./pages/Dashboard/index.tsx";
 import NoMatch from "./pages/NoMatch/index.tsx";
+import Register from "./pages/Register/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
       {
         path: "*",

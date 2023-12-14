@@ -9,14 +9,14 @@ interface User {
 }
 interface AuthContextValue {
   user: User | null;
-  updateUser: (user: User) => void;
+  updateUser: (user: User | null) => void;
 }
 const [Auth, useAuth] = createContext<AuthContextValue>("AuthProvider");
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null);
   const [autoLoginDone, setAutoLoginDone] = React.useState(false);
-  const updateUser = React.useCallback((user: User) => {
+  const updateUser = React.useCallback((user: User | null) => {
     setUser(user);
   }, []);
 

@@ -4,7 +4,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Controller, useForm } from "react-hook-form";
 import Link from "@mui/material/Link";
-
+import { request } from "../../request";
+import toast from "react-hot-toast";
+import { AxiosError, isAxiosError } from "axios";
 export default function Register() {
   const { user } = useAuth("Register");
   const location = useLocation();
@@ -13,11 +15,7 @@ export default function Register() {
     return <Navigate to={origin} />;
   }
 
-  return (
-    <div>
-      <RegisterForm />
-    </div>
-  );
+  return <RegisterForm />;
 }
 
 function RegisterForm() {
@@ -27,11 +25,31 @@ function RegisterForm() {
       password: "",
     },
   });
+
+  const { updateUser } = useAuth("RegisterForm");
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col gap-y-5">
         <form
-          onSubmit={handleSubmit((data) => console.log(data))}
+          onSubmit={handleSubmit(async (data) => {
+            try {
+              const res = await request({
+                method: "POST",
+                url: "/auth/signup",
+                data,
+              });
+              updateUser(res.data.user);
+              console.log(res.data.access_token);
+              localStorage.setItem("access_token", res.data.accessToken);
+            } catch (e) {
+              const error = e as Error | AxiosError;
+              if (isAxiosError(error)) {
+                const message = error.response?.data?.message;
+                message && toast.error(message);
+              }
+            }
+          })}
           className="flex flex-col gap-y-5"
         >
           <Controller
@@ -87,11 +105,11 @@ function RegisterForm() {
             注册
           </Button>
         </form>
-        <div>
+        <div className="text-sm">
           <span>
             已有账号？去
             <Link component={RouterLink} to="/login">
-              登陆
+              登录
             </Link>
           </span>
         </div>

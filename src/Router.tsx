@@ -9,29 +9,34 @@ import Register from "./pages/Register/index.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <RequireAuth>
+        <Layout />
+      </RequireAuth>
+    ),
+
     children: [
       {
         index: true,
-        element: (
-          <RequireAuth>
-            <Dashboard />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "*",
-        element: <NoMatch />,
+        element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: "/public",
+    element: "public",
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "*",
+    element: <NoMatch />,
   },
 ]);
 

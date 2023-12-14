@@ -1,66 +1,47 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../../Auth";
 import { ReactNode } from "react";
+import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 export default function Layout() {
   return (
-    // <div>
-    //   <Header />
-    //   <Main>
-    //     <Sider />
-    //     <Outlet />
-    //   </Main>
-    // </div>
-
     <div className="absolute inset-0 flex flex-col ">
-      <header className="bg-red-50">Header</header>
-
+      <Header />
       <div className="flex-1 flex flex-row overflow-y-hidden">
-        <nav className=" sm:w-32 bg-purple-200 overflow-y-auto">
-          Sidebar
-          <div className="h-[1200px]">asd</div>
+        <nav className="w-[300px]  overflow-y-auto">
+          <Sidebar />
         </nav>
-
-        <main className="flex-1 bg-indigo-100 overflow-y-auto">
-          Content here
-          <div className="">asd</div>
+        <main className="flex-1  overflow-y-auto">
+          <Outlet />
         </main>
-
-        {/* <aside className="sm:w-32 bg-yellow-100 overflow-y-auto">
-          Right Sidebar
-          <div className="h-[1200px]">sda</div>
-        </aside> */}
       </div>
     </div>
   );
 }
 
 function Header() {
-  const { updateUser } = useAuth("Header");
+  const { updateUser, user } = useAuth("Header");
 
   return (
-    <div className="sticky top-0 p-2 bg-slate-300 ">
-      <button
-        onClick={async () => {
-          localStorage.removeItem("access_token");
-          updateUser(null);
-        }}
-      >
-        logout
-      </button>
+    <div className="flex justify-between items-center px-6 py-2 border-b border-solid border-slate-200">
+      <Link to="/">
+        <Typography variant="h6" className="text-black/50">
+          Dashboard
+        </Typography>
+      </Link>
+      <Button className="flex items-center">
+        <span>{user?.username}</span>
+      </Button>
     </div>
   );
 }
 
 function Main(props: { children: ReactNode }) {
-  return <div className="flex">{props.children}</div>;
+  return <div>{props.children}</div>;
 }
 
-function Sider() {
-  return (
-    <div className="w-[300px]  top-[60px] h-screen  overflow-y-auto sticky ">
-      <div className="h-[1200px] bg-red-300"></div>
-      sider
-    </div>
-  );
+function Sidebar() {
+  return <div>sidebar</div>;
 }

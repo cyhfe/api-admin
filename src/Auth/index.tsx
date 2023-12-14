@@ -1,6 +1,7 @@
 import { createContext } from "@cyhfe/react-ui";
 import * as React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, redirect, useLocation } from "react-router-dom";
+import { request } from "../request";
 
 interface User {
   username: string;
@@ -14,10 +15,37 @@ const [Auth, useAuth] = createContext<AuthContextValue>("AuthProvider");
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null);
-
+  const [autoLoginDone, setAutoLoginDone] = React.useState(false);
   const updateUser = React.useCallback((user: User) => {
     setUser(user);
   }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      if (!user) {
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          try {
+            const res = await request({
+              method: "POST",
+              url: "/auth/autoLogin",
+              data: { token },
+            });
+            updateUser(res.data.user);
+            setAutoLoginDone(true);
+          } catch (e) {
+            localStorage.removeItem("access_token");
+            redirect("/login");
+            setAutoLoginDone(true);
+          }
+        } else {
+          setAutoLoginDone(true);
+        }
+      }
+    })();
+  }, [updateUser, user]);
+
+  if (!autoLoginDone) return null;
 
   return (
     <Auth user={user} updateUser={updateUser}>

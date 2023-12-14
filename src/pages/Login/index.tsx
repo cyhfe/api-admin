@@ -40,7 +40,8 @@ function LoginForm() {
                 data,
               });
               updateUser(res.data.user);
-              localStorage.setItem("access_token", res.data.access_token);
+              console.log(res.data.access_token);
+              localStorage.setItem("access_token", res.data.accessToken);
             } catch (e) {
               const error = e as Error | AxiosError;
               if (isAxiosError(error)) {

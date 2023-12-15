@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard/index.tsx";
 import NoMatch from "./pages/NoMatch/index.tsx";
 import Signup from "./pages/signup/index.tsx";
 import Upload from "./pages/Upload/index.tsx";
+import Users from "./pages/Users/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "users",
+        element: <Users />,
       },
       {
         path: "upload",

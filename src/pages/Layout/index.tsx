@@ -44,6 +44,10 @@ function Header() {
 
 const items = [
   {
+    key: "/users",
+    label: <Link to={"/users"}>users</Link>,
+  },
+  {
     key: "/upload",
     label: <Link to={"/upload"}>upload</Link>,
   },
@@ -59,7 +63,6 @@ const items = [
 
 function Sidebar() {
   const { pathname } = useLocation();
-  console.log(location);
   return (
     <Menu
       selectedKeys={[pathname]}

@@ -1,11 +1,15 @@
 import { AuthProvider } from "./Auth/index.tsx";
-
+import { QueryClient, QueryClientProvider } from "react-query";
 import Router from "./Router.tsx";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

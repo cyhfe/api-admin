@@ -5,6 +5,7 @@ import Login from "./pages/Login/index.tsx";
 import Dashboard from "./pages/Dashboard/index.tsx";
 import NoMatch from "./pages/NoMatch/index.tsx";
 import Signup from "./pages/signup/index.tsx";
+import Upload from "./pages/Upload/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "upload",
+        element: <Upload />,
+      },
+      {
         path: "*",
         element: <NoMatch />,
       },
@@ -33,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "signup",
     element: <Signup />,
+  },
+  {
+    path: "*",
+    element: <NoMatch />,
   },
 ]);
 

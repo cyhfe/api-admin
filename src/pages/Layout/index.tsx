@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../Auth";
-import { Button, Menu, MenuProps } from "antd";
+import { Button, Menu } from "antd";
 
 export default function Layout() {
   return (
@@ -43,6 +43,10 @@ function Header() {
 }
 
 const items = [
+  {
+    key: "/upload",
+    label: <Link to={"/upload"}>upload</Link>,
+  },
   {
     key: "/public",
     label: <Link to={"/public"}>public</Link>,

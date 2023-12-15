@@ -80,7 +80,7 @@ function LoginForm() {
             登陆
           </Button>
         </Form.Item>
-        <Link to="/register">还没有账号？去注册</Link>
+        <Link to="/signup">还没有账号？去注册</Link>
       </Form>
     </>
   );

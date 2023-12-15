@@ -4,7 +4,7 @@ import { request } from "../../request";
 import { AxiosError, isAxiosError } from "axios";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message } from "antd";
-export function Login() {
+export default function Login() {
   const { user } = useAuth("Login");
   const location = useLocation();
   const origin = location.state?.from?.pathname || "/";
@@ -15,7 +15,7 @@ export function Login() {
   return <LoginForm />;
 }
 
-export default function LoginForm() {
+function LoginForm() {
   const [messageApi, contextHolder] = message.useMessage();
   const { updateUser } = useAuth("LoginForm");
 

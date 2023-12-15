@@ -4,20 +4,20 @@ import { request } from "../../request";
 import { AxiosError, isAxiosError } from "axios";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message } from "antd";
-export function Register() {
-  const { user } = useAuth("Register");
+export default function Signup() {
+  const { user } = useAuth("Signup");
   const location = useLocation();
   const origin = location.state?.from?.pathname || "/";
   if (user) {
     return <Navigate to={origin} />;
   }
 
-  return <RegisterForm />;
+  return <SignupForm />;
 }
 
-export default function RegisterForm() {
+function SignupForm() {
   const [messageApi, contextHolder] = message.useMessage();
-  const { updateUser } = useAuth("RegisterForm");
+  const { updateUser } = useAuth("SignupForm");
 
   const onFinish = async (data: { username: string; password: string }) => {
     try {
@@ -26,8 +26,8 @@ export default function RegisterForm() {
         url: "/auth/signup",
         data,
       });
-      localStorage.setItem("access_token", res.data.accessToken);
       updateUser(res.data.user);
+      localStorage.setItem("access_token", res.data.accessToken);
     } catch (e) {
       const error = e as Error | AxiosError;
       if (isAxiosError(error)) {
@@ -41,8 +41,8 @@ export default function RegisterForm() {
     <>
       {contextHolder}
       <Form
-        name="Register"
-        className="Register-form w-[300px] mx-auto mt-44"
+        name="signup"
+        className="signup-form w-[300px] mx-auto mt-44"
         initialValues={{ username: "", password: "" }}
         onFinish={onFinish}
       >
@@ -75,7 +75,7 @@ export default function RegisterForm() {
           <Button
             type="primary"
             htmlType="submit"
-            className="Register-form-button w-full"
+            className="signup-form-button w-full"
           >
             注册
           </Button>

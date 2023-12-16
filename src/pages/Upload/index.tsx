@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, message, Upload } from "antd";
+import { Button, message, Progress, Upload } from "antd";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { request } from "../../request";
 
@@ -17,7 +17,17 @@ const App: React.FC = () => {
     setUploading(true);
     // You can use any AJAX library you like
     request
-      .post("/upload", formData)
+      .post("/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          console.log(progressEvent);
+          // if (progressEvent.total) {
+          //   const percent = Math.floor(
+          //     (progressEvent.loaded * 100) / progressEvent.total
+          //   );
+          //   console.log(percent);
+          // }
+        },
+      })
       .then((res) => {
         // setFileList([]);
         console.log(res);
@@ -50,6 +60,7 @@ const App: React.FC = () => {
     <>
       <Upload {...props}>
         <Button icon={<UploadOutlined />}>Select File</Button>
+        <Progress percent={30} />
       </Upload>
       <Button
         type="primary"
